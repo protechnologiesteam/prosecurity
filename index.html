@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://googleapis.com; font-src 'self' https://gstatic.com; connect-src 'none';">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Security</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--bg:#0a0a0f;--bg2:#0e0e16;--card:rgba(18,18,28,0.74);--border:#1e1e32;--border2:#2a2a45;--accent:#7c3aed;--accent2:#a78bfa;--text:#e2e2f0;--text2:#a0a0c0;--muted:#5a5a7a;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--glow:rgba(124,58,237,0.2);}
+[data-theme="light"]{--bg:#f0f0f8;--bg2:#e8e8f5;--card:rgba(255,255,255,0.78);--border:#d0d0e8;--border2:#b8b8d8;--accent:#7c3aed;--accent2:#6d28d9;--text:#1a1a2e;--text2:#4a4a6a;--muted:#8080a0;--glow:rgba(124,58,237,0.1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}}
+html,body{min-height:100%;}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;transition:background .3s,color .3s;position:relative;overflow-x:hidden;}
+.bg-field{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 780px 480px at 50% -5%, var(--glow), transparent 60%),radial-gradient(ellipse 900px 640px at 100% 100%, rgba(124,58,237,0.12), transparent 60%);}
+.bg-grid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.25;background-image:linear-gradient(var(--border) 1px, transparent 1px),linear-gradient(90deg, var(--border) 1px, transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 65% 50% at 50% 15%, black 10%, transparent 75%);-webkit-mask-image:radial-gradient(ellipse 65% 50% at 50% 15%, black 10%, transparent 75%);}
+[data-theme="light"] .bg-grid{opacity:.12;}
+header{width:100%;padding:18px 32px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(124,58,237,0.07) 0%,transparent 100%);position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);}
+.logo-orbit{position:relative;width:40px;height:40px;flex-shrink:0;}
+.logo-ring{position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(124,58,237,0.35);animation:spinRing 16s linear infinite;pointer-events:none;}
+.logo-ring::before{content:'';position:absolute;top:-2px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--accent2);box-shadow:0 0 8px 2px rgba(167,139,250,0.8);}
+@keyframes spinRing{to{transform:rotate(360deg);}}
+.logo-icon{position:relative;z-index:1;width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px var(--glow);animation:pglow 3s ease-in-out infinite;}
+@keyframes pglow{0%,100%{box-shadow:0 0 15px var(--glow);}50%{box-shadow:0 0 30px rgba(124,58,237,0.4);}}
+header h1{font-size:1.25rem;font-weight:700;}header h1 span{color:var(--accent2);}
+.tagline{font-size:.7rem;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.header-actions{margin-left:auto;}
+.theme-btn{width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.theme-btn:hover{border-color:var(--accent);}
+main{width:100%;max-width:700px;padding:28px 18px 60px;display:flex;flex-direction:column;gap:22px;position:relative;z-index:1;}
+.tabs{display:flex;background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 12px 30px -18px rgba(0,0,0,0.5);}
+.tab-btn{flex:1;padding:13px 8px;background:transparent;border:none;color:var(--muted);font-size:.85rem;font-weight:600;font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.tab-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 6px 18px -6px var(--glow);}
+.tab-btn:not(.active):hover{color:var(--text);background:var(--border);}
+.card{background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:18px;animation:fadeSlide .3s ease;box-shadow:0 24px 60px -28px rgba(0,0,0,0.6),0 0 0 1px rgba(124,58,237,0.03) inset;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.card-title{font-size:.98rem;font-weight:700;color:var(--accent2);display:flex;align-items:center;gap:8px;}
+label{font-size:.81rem;color:var(--muted);margin-bottom:5px;display:block;font-weight:500;letter-spacing:.3px;}
+.source-toggle{display:flex;gap:8px;flex-wrap:wrap;}
+.src-btn{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.83rem;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s;}
+.src-btn.active{border-color:var(--accent);color:var(--accent2);background:rgba(124,58,237,0.1);}
+textarea{width:100%;min-height:118px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:12px;font-size:.88rem;resize:vertical;transition:border .2s,box-shadow .2s;outline:none;font-family:'JetBrains Mono',monospace;}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
+.file-drop{border:2px dashed var(--border);border-radius:12px;padding:26px 18px;text-align:center;cursor:pointer;transition:all .25s;color:var(--muted);font-size:.88rem;}
+.file-drop:hover,.file-drop.dragover{border-color:var(--accent);color:var(--text);background:rgba(124,58,237,0.06);box-shadow:0 0 0 3px var(--glow);}
+.file-drop input{display:none;}
+.drop-icon{font-size:1.9rem;margin-bottom:6px;display:block;}
+.drop-hint{font-size:.75rem;color:var(--muted);margin-top:4px;}
+.file-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.file-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-size:.83rem;animation:fadeSlide .2s ease;}
+.file-item-name{flex:1;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.file-item-size{color:var(--muted);font-size:.73rem;flex-shrink:0;}
+.file-item-remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:6px;transition:background .2s;}
+.file-item-remove:hover{background:rgba(239,68,68,0.1);}
+.input-wrap{position:relative;}
+input[type="password"],input[type="text"],input[type="email"]{width:100%;padding:12px 50px 12px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.88rem;outline:none;transition:border .2s,box-shadow .2s;font-family:'Space Grotesk',sans-serif;}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
+.input-actions{position:absolute;right:4px;top:50%;transform:translateY(-50%);display:flex;gap:2px;}
+.eye-btn,.gen-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:6px 8px;border-radius:8px;transition:all .2s;}
+.eye-btn:hover,.gen-btn:hover{color:var(--accent2);background:var(--border);}
+.strength-wrap{margin-top:7px;}
+.strength-bar-bg{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+.strength-bar{height:100%;border-radius:4px;transition:width .4s ease,background .4s ease;width:0%;}
+.strength-label{font-size:.73rem;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+.strength-tips{font-size:.72rem;color:var(--muted);margin-top:3px;}
+.progress-wrap{display:none;flex-direction:column;gap:7px;}
+.progress-wrap.show{display:flex;}
+.progress-header{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);}
+.progress-bar-bg{height:6px;background:var(--border);border-radius:6px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease;width:0%;position:relative;overflow:hidden;}
+.progress-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);animation:shimmer 1.5s infinite;}
+@keyframes shimmer{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+.progress-file-name{font-size:.76rem;color:var(--accent2);font-family:'JetBrains Mono',monospace;}
+.btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:14px;color:#fff;font-size:.93rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif;letter-spacing:.3px;position:relative;overflow:hidden;box-shadow:0 8px 22px -6px var(--glow);}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 28px var(--glow);filter:brightness(1.06);}
+.btn:active{transform:translateY(0);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-sm{padding:9px 16px;font-size:.83rem;width:auto;border-radius:10px;}
+.btn-ghost{padding:13px;background:transparent;border:1px solid var(--border);border-radius:14px;color:var(--text2);font-size:.88rem;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s;width:100%;}
+.btn-ghost:hover{border-color:var(--accent2);color:var(--accent2);}
+.alert{padding:11px 15px;border-radius:12px;font-size:.85rem;display:none;animation:fadeSlide .2s ease;}
+.alert.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--success);}
+.alert.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--danger);}
+.alert.warning{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--warning);}
+.alert.show{display:block;}
+.result-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:15px;font-size:.86rem;white-space:pre-wrap;word-break:break-all;max-height:220px;overflow-y:auto;display:none;font-family:'JetBrains Mono',monospace;}
+.result-box.show{display:block;}
+.preview-wrap{display:none;flex-direction:column;gap:10px;}
+.preview-wrap.show{display:flex;}
+.preview-img{width:100%;border-radius:12px;max-height:280px;object-fit:contain;background:var(--bg2);border:1px solid var(--border);}
+.preview-pdf-frame{width:100%;height:340px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);}
+.preview-text-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:.8rem;white-space:pre-wrap;word-break:break-all;max-height:240px;overflow-y:auto;font-family:'JetBrains Mono',monospace;color:var(--text2);line-height:1.6;}
+.result-actions{display:none;flex-wrap:wrap;gap:8px;}
+.result-actions.show{display:flex;}
+.dl-btn{padding:10px 16px;background:rgba(124,58,237,0.12);border:1px solid var(--accent);border-radius:10px;color:var(--accent2);font-size:.83rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif;display:flex;align-items:center;gap:6px;}
+.dl-btn:hover{background:rgba(124,58,237,0.25);}
+.batch-results{display:flex;flex-direction:column;gap:7px;}
+.batch-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;animation:fadeSlide .2s ease;}
+.batch-name{flex:1;font-size:.8rem;font-family:'JetBrains Mono',monospace;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.batch-dl{padding:6px 11px;font-size:.76rem;background:rgba(124,58,237,0.1);border:1px solid var(--accent);border-radius:8px;color:var(--accent2);cursor:pointer;font-weight:600;transition:all .2s;font-family:inherit;flex-shrink:0;}
+.batch-dl:hover{background:rgba(124,58,237,0.2);}
+.divider{height:1px;background:var(--border);margin:2px 0;}
+/* Toggle row */
+.toggle-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;cursor:pointer;user-select:none;}
+.toggle-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+.toggle-row-label{font-size:.85rem;color:var(--text2);flex:1;}
+.toggle-row-label strong{color:var(--text);}
+/* How steps */
+.how-steps{display:flex;flex-direction:column;gap:4px;}
+.how-step{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:15px;}
+.step-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
+.step-title{font-weight:700;font-size:.9rem;margin-bottom:4px;color:var(--accent2);}
+.step-desc{font-size:.81rem;color:var(--muted);line-height:1.6;}
+.step-desc strong{color:var(--text);}
+.how-arrow{text-align:center;color:var(--accent);font-size:1rem;}
+.security-badges{display:flex;flex-wrap:wrap;gap:7px;}
+.badge{padding:5px 13px;border-radius:20px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);color:var(--accent2);font-size:.76rem;font-weight:600;}
+.info-box{background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:13px;font-size:.81rem;color:#fca5a5;line-height:1.5;}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;padding:26px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:15px;animation:fadeSlide .2s ease;box-shadow:0 30px 70px -24px rgba(0,0,0,0.65);}
+.modal-title{font-size:.98rem;font-weight:700;color:var(--accent2);}
+.modal-gen-pass{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:.98rem;color:var(--text);word-break:break-all;min-height:50px;text-align:center;line-height:1.5;}
+.modal-options{display:flex;flex-direction:column;gap:11px;}
+.modal-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.modal-row label{margin:0;font-size:.83rem;}
+.modal-slider{flex:1;accent-color:var(--accent);}
+.modal-check{accent-color:var(--accent);width:15px;height:15px;cursor:pointer;}
+.modal-actions{display:flex;gap:8px;}
+.modal-actions .btn{flex:1;}
+.confirm-modal{background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;padding:28px;width:100%;max-width:440px;display:flex;flex-direction:column;gap:16px;animation:fadeSlide .2s ease;box-shadow:0 30px 70px -24px rgba(0,0,0,0.65);}
+.confirm-icon{font-size:2.5rem;text-align:center;}
+.confirm-title{font-size:1rem;font-weight:700;text-align:center;}
+.confirm-desc{font-size:.85rem;color:var(--text2);text-align:center;line-height:1.6;}
+.confirm-actions{display:flex;gap:10px;margin-top:4px;}
+.sig-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:.75rem;font-weight:600;}
+.sig-badge.valid{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--success);}
+.sig-badge.invalid{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:var(--danger);}
+.lockout-wrap{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:12px 14px;display:none;flex-direction:column;gap:6px;}
+.lockout-wrap.show{display:flex;}
+.lockout-timer{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--danger);text-align:center;font-weight:700;}
+.lockout-bar-bg{height:4px;background:rgba(239,68,68,0.2);border-radius:4px;overflow:hidden;}
+.lockout-bar{height:100%;background:var(--danger);border-radius:4px;transition:width .5s linear;}
+footer{padding:18px;color:var(--muted);font-size:.7rem;text-align:center;font-family:'JetBrains Mono',monospace;position:relative;z-index:1;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:6px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+@media(max-width:600px){header{padding:14px 16px;}main{padding:18px 12px 50px;gap:16px;}.card{padding:18px;}.tab-btn{font-size:.78rem;padding:11px 5px;}}
+:focus-visible{outline:2px solid var(--accent2);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="bg-field"></div>
+<div class="bg-grid"></div>
+
+<header>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="logo-orbit">
+      <div class="logo-ring"></div>
+      <div class="logo-icon">🔐</div>
+    </div>
+    <div>
+      <h1>Pro <span>Security</span></h1>
+      <div class="tagline">AES-256-GCM · PBKDF2 × 200K · Tarayıcı İçi</div>
+    </div>
+  </div>
+  <div class="header-actions" style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+    <a href="/" style="text-decoration:none;color:var(--text2);font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:color .2s;" onmouseover="this.style.color='var(--accent2)'" onmouseout="this.style.color='var(--text2)'">← Ana Sayfaya Git</a>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  </div>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('lock')">🔒 Kilitle</button>
+    <button class="tab-btn" onclick="switchTab('unlock')">🔓 Aç</button>
+    <button class="tab-btn" onclick="switchTab('how')">❓ Nasıl Çalışır</button>
+  </div>
+
+  <!-- ── LOCK TAB ── -->
+  <div id="lockTab" class="card">
+    <div class="card-title">🔒 Dosya veya Metin Kilitle</div>
+    <div>
+      <div class="source-toggle">
+        <button class="src-btn active" onclick="setSource('text')">📝 Metin</button>
+        <button class="src-btn" onclick="setSource('file')">📁 Tekil Dosya</button>
+        <button class="src-btn" onclick="setSource('batch')">📦 Toplu Dosya</button>
+      </div>
+    </div>
+    <div id="textInput">
+      <label>Şifrelenecek metin</label>
+      <textarea id="lockText" placeholder="Buraya metni girin..."></textarea>
+    </div>
+    <div id="fileInput" style="display:none">
+      <label>Şifrelenecek dosya</label>
+      <div class="file-drop" id="dropZone" onclick="document.getElementById('fileUpload').click()"
+        ondragover="dragOver(event,'dropZone')" ondragleave="dragLeave('dropZone')" ondrop="dropFile(event)">
+        <input type="file" id="fileUpload" onchange="fileSelected(event)">
+        <span class="drop-icon">📂</span>Dosya seçmek için tıklayın veya sürükleyin
+        <div class="drop-hint">Her türlü dosya desteklenir</div>
+        <div id="fileName" style="margin-top:8px;font-size:.78rem;color:var(--success);"></div>
+      </div>
+    </div>
+    <div id="batchInput" style="display:none">
+      <label>Şifrelenecek dosyalar</label>
+      <div class="file-drop" id="batchZone" onclick="document.getElementById('batchUpload').click()"
+        ondragover="dragOver(event,'batchZone')" ondragleave="dragLeave('batchZone')" ondrop="dropBatch(event)">
+        <input type="file" id="batchUpload" multiple onchange="batchSelected(event)">
+        <span class="drop-icon">📦</span>Birden fazla dosya seçin veya sürükleyin
+        <div class="drop-hint">Hepsi aynı şifreyle kilitlenir, ayrı .safe dosyaları oluşturulur</div>
+      </div>
+      <div class="file-list" id="batchFileList"></div>
+    </div>
+    <div id="singleNameWrap">
+      <label>Çıktı dosya adı (isteğe bağlı)</label>
+      <input type="text" id="lockFileName" placeholder="örn: belgem (uzantı otomatik eklenir)" style="padding-right:13px;">
+    </div>
+    <div class="divider"></div>
+    <div>
+      <label>Şifre belirleyin</label>
+      <div class="input-wrap">
+        <input type="password" id="lockPass" placeholder="Güçlü bir şifre girin" oninput="checkStrength(this.value)">
+        <div class="input-actions">
+          <button class="gen-btn" onclick="openGenModal()" title="Şifre Üret">✨</button>
+          <button class="eye-btn" onclick="togglePass('lockPass',this)">👁️</button>
+        </div>
+      </div>
+      <div class="strength-wrap">
+        <div class="strength-bar-bg"><div class="strength-bar" id="strengthBar"></div></div>
+        <div class="strength-label" id="strengthLabel" style="color:var(--muted)"></div>
+        <div class="strength-tips" id="strengthTips"></div>
+      </div>
+    </div>
+    <div>
+      <label>Şifreyi tekrar girin</label>
+      <div class="input-wrap">
+        <input type="password" id="lockPass2" placeholder="Şifreyi tekrar girin">
+        <div class="input-actions">
+          <button class="eye-btn" onclick="togglePass('lockPass2',this)">👁️</button>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <!-- FIX 4: Şifremi unuttum onay kutusu -->
+    <label class="toggle-row" for="enableRecovery">
+      <input type="checkbox" id="enableRecovery" onchange="toggleRecovery(this.checked)">
+      <span class="toggle-row-label"><strong>Şifremi Unuttum</strong> özelliğini etkinleştir — kurtarma anahtarı (.key) oluşturulur</span>
+    </label>
+    <div class="alert" id="lockAlert"></div>
+    <div class="progress-wrap" id="lockProgress">
+      <div class="progress-header">
+        <span id="lockProgressLabel">Şifreleniyor...</span>
+        <span id="lockProgressPct">0%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="lockProgressBar"></div></div>
+      <div class="progress-file-name" id="lockProgressFile"></div>
+    </div>
+    <button class="btn" id="lockBtn" onclick="lockFile()">🔒 Kilitle ve İndir (.safe)</button>
+  </div>
+
+  <!-- ── UNLOCK TAB ── -->
+  <div id="unlockTab" class="card" style="display:none">
+    <div class="card-title">🔓 .safe Dosyası Aç</div>
+    <div>
+      <div class="source-toggle">
+        <button class="src-btn active" onclick="setUnlockMode('single')">📄 Tekil</button>
+        <button class="src-btn" onclick="setUnlockMode('batch')">📦 Toplu</button>
+      </div>
+    </div>
+    <div id="unlockSingleWrap">
+      <label>.safe dosyasını yükleyin</label>
+      <div class="file-drop" id="dropZone2" onclick="document.getElementById('psUpload').click()"
+        ondragover="dragOver(event,'dropZone2')" ondragleave="dragLeave('dropZone2')" ondrop="dropPS(event)">
+        <!-- FIX 7: Sadece .safe dosyaları -->
+        <input type="file" id="psUpload" accept=".safe" onchange="psSelected(event)">
+        <span class="drop-icon">📂</span>.safe dosyası seçin veya sürükleyin
+        <div class="drop-hint">Yalnızca .safe uzantılı dosyalar kabul edilir</div>
+        <div id="psFileName" style="margin-top:8px;font-size:.78rem;color:var(--success);"></div>
+      </div>
+    </div>
+    <div id="unlockBatchWrap" style="display:none">
+      <label>Birden fazla .safe dosyası yükleyin</label>
+      <div class="file-drop" id="dropZone3" onclick="document.getElementById('psBatchUpload').click()"
+        ondragover="dragOver(event,'dropZone3')" ondragleave="dragLeave('dropZone3')" ondrop="dropBatchPS(event)">
+        <input type="file" id="psBatchUpload" accept=".safe" multiple onchange="psBatchSelected(event)">
+        <span class="drop-icon">📦</span>Birden fazla .safe dosyası seçin
+        <div class="drop-hint">Hepsi aynı şifreyle açılacak</div>
+      </div>
+      <div class="file-list" id="psBatchFileList"></div>
+    </div>
+    <div>
+      <label>Şifre</label>
+      <div class="input-wrap">
+        <input type="password" id="unlockPass" placeholder="Şifreyi girin">
+        <div class="input-actions">
+          <button class="eye-btn" onclick="togglePass('unlockPass',this)">👁️</button>
+        </div>
+      </div>
+    </div>
+    <div class="alert" id="unlockAlert"></div>
+    <div class="progress-wrap" id="unlockProgress">
+      <div class="progress-header">
+        <span id="unlockProgressLabel">Açılıyor...</span>
+        <span id="unlockProgressPct">0%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="unlockProgressBar"></div></div>
+      <div class="progress-file-name" id="unlockProgressFile"></div>
+    </div>
+    <!-- FIX 6: Şifremi Unuttum butonu başta gizli, dosya yüklenince kontrol edilir -->
+    <div style="display:flex;gap:10px;">
+      <button class="btn" onclick="unlockFile()" style="flex:1;">🔓 Dosyayı Aç</button>
+      <button class="btn" onclick="forgotPassword()" id="forgotBtn"
+        style="display:none;flex:0 0 auto;width:auto;padding:14px 18px;background:rgba(124,58,237,0.15);border:1px solid var(--accent);color:var(--accent2);font-size:.82rem;">
+        🔑 Şifremi Unuttum
+      </button>
+    </div>
+    <div id="resultLabel" style="display:none;flex-direction:column;gap:12px;">
+      <div id="sigBadge" class="sig-badge" style="display:none;"></div>
+      <div><label>İçerik</label><div class="result-box" id="resultBox"></div></div>
+      <div class="preview-wrap" id="imgPreview">
+        <div style="font-size:.8rem;font-weight:600;color:var(--muted);">🖼️ Resim Önizleme</div>
+        <img class="preview-img" id="previewImg" alt="Önizleme">
+      </div>
+      <div class="preview-wrap" id="pdfPreview">
+        <div style="font-size:.8rem;font-weight:600;color:var(--muted);">📄 PDF Önizleme</div>
+        <iframe class="preview-pdf-frame" id="previewPdf"></iframe>
+      </div>
+      <div class="preview-wrap" id="txtPreview">
+        <div style="font-size:.8rem;font-weight:600;color:var(--muted);">📝 Dosya İçeriği (ilk 5000 karakter)</div>
+        <div class="preview-text-box" id="previewTxt"></div>
+      </div>
+      <div class="result-actions" id="resultActions">
+        <button class="dl-btn" onclick="downloadOriginal()">⬇️ Orijinal Dosyayı İndir</button>
+      </div>
+    </div>
+    <div id="batchResultsWrap" style="display:none">
+      <label>Sonuçlar</label>
+      <div class="batch-results" id="batchResults"></div>
+    </div>
+  </div>
+
+  <!-- ── HOW TAB ── -->
+  <!-- FIX 5: Doğru içerik -->
+  <div id="howTab" class="card" style="display:none">
+    <div class="card-title">❓ Nasıl Çalışır?</div>
+    <div class="how-steps">
+      <div class="how-step"><div class="step-icon">📝</div><div>
+        <div class="step-title">1. İçeriği Seçin</div>
+        <div class="step-desc">Şifrelemek istediğiniz metni yazın veya tekil/toplu dosya yükleyin. Resim, PDF, video, belge — her türlü dosya desteklenir.</div>
+      </div></div>
+      <div class="how-arrow">↓</div>
+      <div class="how-step"><div class="step-icon">🔑</div><div>
+        <div class="step-title">2. Şifre Belirleyin</div>
+        <div class="step-desc">Güçlü bir şifre girin veya ✨ üreteci ile otomatik oluşturun. Şifreniz <strong>PBKDF2</strong> algoritmasıyla 200.000 iterasyon işlenerek şifreleme anahtarına dönüştürülür. Düz metin olarak hiçbir yerde saklanmaz.</div>
+      </div></div>
+      <div class="how-arrow">↓</div>
+      <div class="how-step"><div class="step-icon">🗝️</div><div>
+        <div class="step-title">3. Kurtarma Anahtarı (İsteğe Bağlı)</div>
+        <div class="step-desc">"Şifremi Unuttum" onay kutusunu işaretlerseniz, şifreniz <strong>AES-256-GCM</strong> ile şifreli bir kurtarma anahtarına (.key dosyası) dönüştürülür. Bu dosyayı güvenli bir yerde saklayın.</div>
+      </div></div>
+      <div class="how-arrow">↓</div>
+      <div class="how-step"><div class="step-icon">🛡️</div><div>
+        <div class="step-title">4. AES-256-GCM Şifreleme</div>
+        <div class="step-desc">İçerik askeri düzeyde <strong>AES-256-GCM</strong> ile şifrelenir. Her işlemde rastgele <em>salt</em> ve <em>IV</em> üretilir — aynı dosyayı iki kez şifreleseniz bile sonuç farklı olur. <strong>HMAC</strong> imzasıyla dosya bütünlüğü doğrulanır.</div>
+      </div></div>
+      <div class="how-arrow">↓</div>
+      <div class="how-step"><div class="step-icon">📦</div><div>
+        <div class="step-title">5. .safe Dosyası Oluşturulur</div>
+        <div class="step-desc">Şifreli veri, meta bilgiler (salt, IV, hash, imza) ve varsa kurtarma bilgileri tek bir <strong>.safe</strong> dosyasında birleştirilir ve bilgisayarınıza indirilir.</div>
+      </div></div>
+      <div class="how-arrow">↓</div>
+      <div class="how-step"><div class="step-icon">🔓</div><div>
+        <div class="step-title">6. Açma ve Önizleme</div>
+        <div class="step-desc">.safe dosyasını yükleyip şifreyi girin. Şifre doğrulanır, imza kontrol edilir, içerik çözülür. Resimler, PDF'ler ve metin dosyaları tarayıcıda önizlenebilir.</div>
+      </div></div>
+    </div>
+    <div class="security-badges">
+      <div class="badge">🔐 AES-256-GCM</div>
+      <div class="badge">🧬 PBKDF2 × 200K</div>
+      <div class="badge">🔏 HMAC İmza</div>
+      <div class="badge">🌐 Tarayıcı İçi</div>
+      <div class="badge">🚫 Sunucu Yok</div>
+      <div class="badge">📦 Toplu İşlem</div>
+      <div class="badge">🗝️ Kurtarma Anahtarı</div>
+    </div>
+    <div class="info-box">⚠️ <strong>Önemli:</strong> Kurtarma anahtarını (.key dosyasını) etkinleştirmezseniz ve şifrenizi unutursanız dosyanızı <u>kurtarmanın hiçbir yolu yoktur</u>. Tüm işlemler tarayıcınızda gerçekleşir.</div>
+  </div>
+</main>
+
+<footer>Pro Security v6 — Tüm işlemler tarayıcınızda gerçekleşir. Hiçbir veri sunucuya gönderilmez.</footer>
+
+<!-- Password Generator Modal -->
+<div class="modal-overlay" id="genModal">
+  <div class="modal">
+    <div class="modal-title">✨ Şifre Üreteci</div>
+    <div class="modal-gen-pass" id="genPassDisplay">—</div>
+    <div class="modal-options">
+      <div class="modal-row">
+        <label>Uzunluk: <strong id="lenLabel">20</strong></label>
+        <input type="range" class="modal-slider" id="genLen" min="12" max="64" value="20" oninput="updateGenLabel()">
+      </div>
+      <div class="modal-row"><label>Büyük harf (A-Z)</label><input type="checkbox" class="modal-check" id="genUpper" checked></div>
+      <div class="modal-row"><label>Rakam (0-9)</label><input type="checkbox" class="modal-check" id="genNum" checked></div>
+      <div class="modal-row"><label>Semboller (!@#$...)</label><input type="checkbox" class="modal-check" id="genSym" checked></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-sm" onclick="generatePassword()">🔄 Yenile</button>
+      <button class="btn btn-sm" onclick="useGenPass()">✅ Kullan</button>
+      <button class="btn-ghost" style="width:auto;padding:9px 16px;border-radius:10px;font-size:.83rem;" onclick="closeGenModal()">İptal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Key Export Modal -->
+<div class="modal-overlay" id="keyExportModal">
+  <div class="confirm-modal" style="max-width:460px;">
+    <div class="confirm-title">🗝️ Kurtarma Anahtarınız</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:10px;letter-spacing:.5px;">KURTARMA ANAHTARINIZ</div>
+      <div id="keyFullDisplay" style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;letter-spacing:3px;color:var(--success);word-break:break-all;"></div>
+    </div>
+    <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:12px 14px;font-size:.78rem;color:#fcd34d;line-height:1.6;">
+      ⚠️ Bu anahtarı kaybedersen şifreni kurtaramazsın. .key dosyasını güvenli bir yerde sakla.
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn" onclick="downloadKeyFile()" style="flex:1;">⬇️ .key Dosyasını İndir</button>
+      <button class="btn-ghost" onclick="closeKeyExport()" style="flex:0 0 auto;width:auto;padding:13px 18px;">Tamam</button>
+    </div>
+  </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="confirm-modal" style="max-width:460px;">
+    <div id="fStateNoEmail" style="display:none;flex-direction:column;gap:14px;">
+      <div class="confirm-icon">🚫</div>
+      <div class="confirm-title">Kurtarma Mevcut Değil</div>
+      <div class="confirm-desc">Bu .safe dosyası kurtarma anahtarı içermiyor. Oluşturulurken "Şifremi Unuttum" özelliği etkinleştirilmemiş.</div>
+      <div class="confirm-actions"><button class="btn" onclick="closeForgotModal()">Tamam</button></div>
+    </div>
+    <div id="fStateReveal" style="display:none;flex-direction:column;gap:14px;">
+      <div class="confirm-icon">🗝️</div>
+      <div class="confirm-title">Kurtarma Anahtarını Girin</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <label style="font-size:.78rem;">Kurtarma anahtarınızı girin veya .key dosyasından yükleyin</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="fKeyFile" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19"
+            style="font-family:'JetBrains Mono',monospace;letter-spacing:2px;text-transform:uppercase;flex:1;padding-right:13px;"
+            oninput="fAutoHyphen(this)">
+          <button class="dl-btn" onclick="document.getElementById('keyFileInput').click()" title=".key dosyasından yükle" style="flex-shrink:0;">📂</button>
+          <input type="file" id="keyFileInput" accept=".key" style="display:none" onchange="parseKeyFile(event)">
+        </div>
+      </div>
+      <div class="lockout-wrap" id="lockoutWrap">
+        <div style="font-size:.8rem;color:var(--danger);text-align:center;">⛔ Çok fazla yanlış deneme</div>
+        <div class="lockout-timer" id="lockoutTimer">30s</div>
+        <div class="lockout-bar-bg"><div class="lockout-bar" id="lockoutBar" style="width:100%"></div></div>
+      </div>
+      <div class="alert" id="fAlertReveal"></div>
+      <div class="confirm-actions">
+        <button class="btn-ghost" onclick="closeForgotModal()">İptal</button>
+        <button class="btn" id="fRevealBtn" onclick="revealPassword()">🔓 Şifremi Göster</button>
+      </div>
+    </div>
+    <div id="fStateSuccess" style="display:none;flex-direction:column;gap:14px;align-items:center;">
+      <div class="confirm-icon">✅</div>
+      <div class="confirm-title">Şifreniz</div>
+      <div style="width:100%;background:var(--bg2);border:1px solid var(--accent);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">ŞİFRENİZ</div>
+        <div id="fRevealedPass" style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--accent2);word-break:break-all;font-weight:700;letter-spacing:1px;"></div>
+      </div>
+      <button class="btn" onclick="fCopyPass()" id="fCopyBtn" style="width:100%;">📋 Kopyala</button>
+      <button class="btn-ghost" onclick="closeForgotModal()">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+// ── THEME ─────────────────────────────────────────────────
+let isDark = true;
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+async function sha256(s) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2,'0')).join('');
+}
+async function deriveKey(pass, salt) {
+  const m = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt:new TextEncoder().encode(salt), iterations:200000, hash:'SHA-256'},
+    m, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']);
+}
+function toB64(b) { return btoa(String.fromCharCode(...new Uint8Array(b))); }
+function fromB64(s) { return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+function fileIcon(n) {
+  const e = (n||'').split('.').pop().toLowerCase();
+  return {jpg:'🖼️',jpeg:'🖼️',png:'🖼️',gif:'🖼️',webp:'🖼️',svg:'🖼️',
+    pdf:'📄',doc:'📝',docx:'📝',txt:'📝',md:'📝',
+    mp4:'🎬',mov:'🎬',avi:'🎬',mkv:'🎬',
+    mp3:'🎵',wav:'🎵',zip:'🗜️',rar:'🗜️',
+    xls:'📊',xlsx:'📊',csv:'📊',js:'💻',py:'💻',html:'💻',css:'💻'}[e]||'📁';
+}
+function fmtSize(b) {
+  if(b<1024) return b+' B';
+  if(b<1048576) return (b/1024).toFixed(1)+' KB';
+  return (b/1048576).toFixed(1)+' MB';
+}
+
+// ── UI ────────────────────────────────────────────────────
+function switchTab(t) {
+  ['lock','unlock','how'].forEach(id =>
+    document.getElementById(id+'Tab').style.display = t===id ? '' : 'none');
+  document.querySelectorAll('.tab-btn').forEach((b,i) =>
+    b.classList.toggle('active', ['lock','unlock','how'][i]===t));
+}
+let srcMode = 'text';
+function setSource(m) {
+  srcMode = m;
+  document.getElementById('textInput').style.display   = m==='text'  ? '' : 'none';
+  document.getElementById('fileInput').style.display   = m==='file'  ? '' : 'none';
+  document.getElementById('batchInput').style.display  = m==='batch' ? '' : 'none';
+  document.getElementById('singleNameWrap').style.display = m==='batch' ? 'none' : '';
+  document.querySelectorAll('#lockTab .src-btn').forEach((b,i) =>
+    b.classList.toggle('active', ['text','file','batch'][i]===m));
+}
+let unlockMode = 'single';
+function setUnlockMode(m) {
+  unlockMode = m;
+  document.getElementById('unlockSingleWrap').style.display  = m==='single' ? '' : 'none';
+  document.getElementById('unlockBatchWrap').style.display   = m==='batch'  ? '' : 'none';
+  document.getElementById('resultLabel').style.display       = 'none';
+  document.getElementById('batchResultsWrap').style.display  = 'none';
+  document.getElementById('forgotBtn').style.display         = 'none';
+  document.querySelectorAll('#unlockTab .src-btn').forEach((b,i) =>
+    b.classList.toggle('active', ['single','batch'][i]===m));
+}
+function togglePass(id, btn) {
+  const el = document.getElementById(id);
+  el.type = el.type==='password' ? 'text' : 'password';
+  btn.textContent = el.type==='password' ? '👁️' : '🙈';
+}
+function showAlert(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.className = `alert ${type} show`;
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+function setProgress(prefix, pct, file='', label='') {
+  const w = document.getElementById(prefix+'Progress');
+  w.classList.toggle('show', pct!==null);
+  if(pct===null) return;
+  document.getElementById(prefix+'ProgressBar').style.width = pct+'%';
+  document.getElementById(prefix+'ProgressPct').textContent = pct+'%';
+  document.getElementById(prefix+'ProgressFile').textContent = file;
+  if(label) document.getElementById(prefix+'ProgressLabel').textContent = label;
+}
+
+// FIX 4: Toggle recovery
+function toggleRecovery(checked) { /* state read inline */ }
+
+// ── STRENGTH ──────────────────────────────────────────────
+function checkStrength(pass) {
+  const bar=document.getElementById('strengthBar'),lbl=document.getElementById('strengthLabel'),tips=document.getElementById('strengthTips');
+  if(!pass){bar.style.width='0%';lbl.textContent='';tips.textContent='';return;}
+  let score=0,t=[];
+  if(pass.length>=8)score++;else t.push('en az 8 karakter');
+  if(pass.length>=14)score++;else t.push('14+ karakter');
+  if(/[A-Z]/.test(pass))score++;else t.push('büyük harf');
+  if(/[0-9]/.test(pass))score++;else t.push('rakam');
+  if(/[^A-Za-z0-9]/.test(pass))score++;else t.push('sembol');
+  const lvls=[{w:'15%',c:'#ef4444',t:'Çok Zayıf'},{w:'30%',c:'#f97316',t:'Zayıf'},{w:'55%',c:'#eab308',t:'Orta'},{w:'80%',c:'#22c55e',t:'Güçlü'},{w:'100%',c:'#10b981',t:'Çok Güçlü 🔐'}];
+  const l=lvls[Math.min(score,4)];
+  bar.style.width=l.w; bar.style.background=l.c; lbl.style.color=l.c; lbl.textContent=l.t;
+  tips.textContent=t.length?'İpucu: '+t.slice(0,2).join(', '):'';
+}
+
+// ── FILE INPUTS ───────────────────────────────────────────
+let uploadedFile=null, uploadedPS=null, decryptedBlob=null, decryptedName='';
+let batchFiles=[], psBatchFiles=[];
+
+function fileSelected(e){uploadedFile=e.target.files[0];if(uploadedFile)document.getElementById('fileName').textContent='✅ '+uploadedFile.name;}
+function dragOver(e,id){e.preventDefault();document.getElementById(id).classList.add('dragover');}
+function dragLeave(id){document.getElementById(id).classList.remove('dragover');}
+function dropFile(e){e.preventDefault();dragLeave('dropZone');uploadedFile=e.dataTransfer.files[0];if(uploadedFile)document.getElementById('fileName').textContent='✅ '+uploadedFile.name;}
+function batchSelected(e){Array.from(e.target.files).forEach(f=>addBatchFile(f));}
+function dropBatch(e){e.preventDefault();dragLeave('batchZone');Array.from(e.dataTransfer.files).forEach(f=>addBatchFile(f));}
+function addBatchFile(f){if(batchFiles.find(x=>x.name===f.name&&x.size===f.size))return;batchFiles.push(f);renderBatchList();}
+function removeBatchFile(i){batchFiles.splice(i,1);renderBatchList();}
+function renderBatchList(){
+  document.getElementById('batchFileList').innerHTML=batchFiles.map((f,i)=>`
+    <div class="file-item"><span>${fileIcon(f.name)}</span>
+    <span class="file-item-name">${f.name}</span>
+    <span class="file-item-size">${fmtSize(f.size)}</span>
+    <button class="file-item-remove" onclick="removeBatchFile(${i})">✕</button></div>`).join('');
+}
+
+// FIX 7: Sürükle-bırak için .safe kontrolü
+function psSelected(e){
+  const f = e.target.files[0];
+  if(f && !f.name.endsWith('.safe')){
+    showAlert('unlockAlert','⚠️ Yalnızca .safe uzantılı dosyalar kabul edilir.','error'); return;
+  }
+  uploadedPS = f;
+  if(f){ document.getElementById('psFileName').textContent='✅ '+f.name; checkForgotBtn(f); }
+}
+function dropPS(e){
+  e.preventDefault(); dragLeave('dropZone2');
+  const f = e.dataTransfer.files[0];
+  if(f && !f.name.endsWith('.safe')){
+    showAlert('unlockAlert','⚠️ Yalnızca .safe uzantılı dosyalar kabul edilir.','error'); return;
+  }
+  uploadedPS = f;
+  if(f){ document.getElementById('psFileName').textContent='✅ '+f.name; checkForgotBtn(f); }
+}
+
+// FIX 6: Dosya yüklenince meta okuyup Şifremi Unuttum butonunu göster/gizle
+async function checkForgotBtn(file) {
+  try {
+    const raw = new Uint8Array(await file.arrayBuffer());
+    const metaLen = new DataView(raw.buffer).getUint32(0, true);
+    const meta = JSON.parse(new TextDecoder().decode(raw.slice(4, 4+metaLen)));
+    document.getElementById('forgotBtn').style.display = meta.encPass ? 'inline-flex' : 'none';
+  } catch { document.getElementById('forgotBtn').style.display = 'none'; }
+}
+
+function psBatchSelected(e){psBatchFiles=Array.from(e.target.files).filter(f=>f.name.endsWith('.safe'));renderPsBatchList();}
+function dropBatchPS(e){e.preventDefault();dragLeave('dropZone3');psBatchFiles=Array.from(e.dataTransfer.files).filter(f=>f.name.endsWith('.safe'));renderPsBatchList();}
+function renderPsBatchList(){
+  document.getElementById('psBatchFileList').innerHTML=psBatchFiles.map(f=>`
+    <div class="file-item"><span>🔒</span>
+    <span class="file-item-name">${f.name}</span>
+    <span class="file-item-size">${fmtSize(f.size)}</span></div>`).join('');
+}
+
+// ── HMAC ──────────────────────────────────────────────────
+async function signData(data, pass, salt) {
+  const enc = new TextEncoder();
+  const km = await crypto.subtle.importKey('raw', enc.encode(pass+salt), 'PBKDF2', false, ['deriveKey']);
+  const hk = await crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt:enc.encode(salt+'_hmac'), iterations:100000, hash:'SHA-256'},
+    km, {name:'HMAC', hash:'SHA-256', length:256}, false, ['sign','verify']);
+  return toB64(await crypto.subtle.sign('HMAC', hk, data));
+}
+async function verifySignature(data, sig, pass, salt) {
+  const enc = new TextEncoder();
+  const km = await crypto.subtle.importKey('raw', enc.encode(pass+salt), 'PBKDF2', false, ['deriveKey']);
+  const hk = await crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt:enc.encode(salt+'_hmac'), iterations:100000, hash:'SHA-256'},
+    km, {name:'HMAC', hash:'SHA-256', length:256}, false, ['sign','verify']);
+  try { return await crypto.subtle.verify('HMAC', hk, fromB64(sig), data); } catch { return false; }
+}
+
+// ── KEY EXPORT ────────────────────────────────────────────
+let _pendingKey = null;
+function showKeyExport(fullKey, fileName) {
+  _pendingKey = {fullKey, fileName};
+  document.getElementById('keyFullDisplay').textContent = fullKey;
+  document.getElementById('keyExportModal').classList.add('show');
+}
+function closeKeyExport() {
+  document.getElementById('keyExportModal').classList.remove('show');
+  _pendingKey = null;
+}
+// FIX 2+3: .key uzantısı ve doğru içerik
+function downloadKeyFile() {
+  if(!_pendingKey) return;
+  const {fullKey, fileName} = _pendingKey;
+  // FIX 3: Sadece anahtarı yaz, JSON değil
+  const content = fullKey;
+  const blob = new Blob([content], {type:'application/octet-stream'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  // FIX 2: .key.json değil, .key
+  a.download = fileName.replace(/\.safe$/i,'') + '.key';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ── LOCK ──────────────────────────────────────────────────
+function lockFile() {
+  const pass = document.getElementById('lockPass').value;
+  const pass2 = document.getElementById('lockPass2').value;
+  if(!pass) return showAlert('lockAlert','⚠️ Şifre boş olamaz.','error');
+  if(pass!==pass2) return showAlert('lockAlert','⚠️ Şifreler eşleşmiyor.','error');
+  if(srcMode==='text' && !document.getElementById('lockText').value.trim())
+    return showAlert('lockAlert','⚠️ Metin boş olamaz.','error');
+  if(srcMode==='file' && !uploadedFile)
+    return showAlert('lockAlert','⚠️ Dosya seçilmedi.','error');
+  if(srcMode==='batch' && !batchFiles.length)
+    return showAlert('lockAlert','⚠️ Hiç dosya seçilmedi.','error');
+  proceedLock();
+}
+
+async function proceedLock() {
+  const pass = document.getElementById('lockPass').value;
+  // FIX 4: Onay kutusu kontrolü
+  const enableRecovery = document.getElementById('enableRecovery').checked;
+
+  function genCode() {
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const arr=crypto.getRandomValues(new Uint8Array(8));
+    const raw=Array.from(arr).map(b=>chars[b%chars.length]).join('');
+    return raw.slice(0,4)+'-'+raw.slice(4);
+  }
+
+  async function encrypt(content, origName, isText) {
+    const salt = toB64(crypto.getRandomValues(new Uint8Array(16)));
+    const iv   = crypto.getRandomValues(new Uint8Array(12));
+    const key  = await deriveKey(pass, salt);
+    const encrypted = await crypto.subtle.encrypt({name:'AES-GCM',iv}, key, content);
+    const hash = await sha256(pass+salt);
+    const fileCode = genCode();
+    const signature = await signData(new Uint8Array(encrypted), pass, salt);
+
+    let encPass='', recoveryIv='', recoverySalt='', fullKey='';
+    if(enableRecovery) {
+      const rkChars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      const rkArr=crypto.getRandomValues(new Uint8Array(16));
+      const rkRaw=Array.from(rkArr).map(b=>rkChars[b%rkChars.length]).join('');
+      fullKey=rkRaw.match(/.{4}/g).join('-');
+      recoverySalt=toB64(crypto.getRandomValues(new Uint8Array(16)));
+      const rkKey=await deriveKey(fullKey, recoverySalt);
+      const rkIv=crypto.getRandomValues(new Uint8Array(12));
+      const ep=await crypto.subtle.encrypt({name:'AES-GCM',iv:rkIv}, rkKey, new TextEncoder().encode(pass));
+      encPass=toB64(ep); recoveryIv=toB64(rkIv);
+    }
+
+    const meta = {v:5, hash, salt, iv:toB64(iv), name:origName, isText, fileCode, signature,
+      ...(enableRecovery ? {encPass, recoveryIv, recoverySalt} : {})};
+    const metaBytes = new TextEncoder().encode(JSON.stringify(meta));
+    const lenBuf = new Uint32Array([metaBytes.length]);
+    return {
+      blob: new Blob([new Uint8Array(lenBuf.buffer), metaBytes, new Uint8Array(encrypted)]),
+      fileCode, fullKey
+    };
+  }
+
+  // FIX 1: Doğru MIME type ile blob oluşturma ve download
+  function dl(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  if(srcMode==='batch') {
+    const btn=document.getElementById('lockBtn'); btn.disabled=true;
+    setProgress('lock',0,'','Şifreleniyor...');
+    for(let i=0;i<batchFiles.length;i++){
+      const f=batchFiles[i];
+      setProgress('lock',Math.round((i/batchFiles.length)*100),f.name);
+      const {blob,fullKey}=await encrypt(new Uint8Array(await f.arrayBuffer()),f.name,false);
+      const safeName=f.name.replace(/\.[^.]+$/,'')+'.safe';
+      dl(blob, safeName);
+      if(enableRecovery) showKeyExport(fullKey, safeName);
+      await new Promise(r=>setTimeout(r,200));
+    }
+    setProgress('lock',100,'','Tamamlandı!');
+    setTimeout(()=>setProgress('lock',null),2000);
+    btn.disabled=false;
+    return showAlert('lockAlert',`✅ ${batchFiles.length} dosya kilitlendi!`,'success');
+  }
+
+  if(srcMode==='text') {
+    setProgress('lock',30,'metin şifreleniyor...');
+    const {blob,fullKey}=await encrypt(new TextEncoder().encode(document.getElementById('lockText').value),'metin.txt',true);
+    setProgress('lock',100); setTimeout(()=>setProgress('lock',null),1000);
+    const cname=document.getElementById('lockFileName').value.trim();
+    const fname=(cname||'metin')+'.safe';
+    dl(blob, fname);
+    if(enableRecovery) showKeyExport(fullKey, fname);
+    return showAlert('lockAlert','✅ Metin kilitlendi!','success');
+  }
+
+  setProgress('lock',30,uploadedFile.name);
+  const {blob,fullKey}=await encrypt(new Uint8Array(await uploadedFile.arrayBuffer()),uploadedFile.name,false);
+  setProgress('lock',100,'','Tamamlandı!'); setTimeout(()=>setProgress('lock',null),1000);
+  const cname2=document.getElementById('lockFileName').value.trim();
+  const base=cname2||uploadedFile.name.replace(/\.[^.]+$/,'')||'dosya';
+  const fname=base+'.safe';
+  dl(blob, fname);
+  if(enableRecovery) showKeyExport(fullKey, fname);
+  showAlert('lockAlert','✅ Dosya kilitlendi!','success');
+}
+
+// ── DECRYPT ───────────────────────────────────────────────
+async function decryptSafe(file, pass) {
+  const raw = new Uint8Array(await file.arrayBuffer());
+  const metaLen = new DataView(raw.buffer).getUint32(0,true);
+  const meta = JSON.parse(new TextDecoder().decode(raw.slice(4,4+metaLen)));
+  const encData = raw.slice(4+metaLen);
+  const hash = await sha256(pass+meta.salt);
+  if(hash!==meta.hash) throw new Error('wrong_pass');
+  const key = await deriveKey(pass, meta.salt);
+  const dec = await crypto.subtle.decrypt({name:'AES-GCM',iv:fromB64(meta.iv)},key,encData);
+  let sigValid = null;
+  if(meta.signature) sigValid = await verifySignature(encData, meta.signature, pass, meta.salt);
+  return {decrypted:dec, meta, sigValid};
+}
+
+async function unlockFile() {
+  const pass = document.getElementById('unlockPass').value;
+  if(!pass) return showAlert('unlockAlert','⚠️ Şifre boş olamaz.','error');
+
+  if(unlockMode==='batch'){
+    if(!psBatchFiles.length) return showAlert('unlockAlert','⚠️ Hiç .safe dosyası seçilmedi.','error');
+    setProgress('unlock',0,'','Açılıyor...');
+    document.getElementById('batchResultsWrap').style.display='';
+    document.getElementById('resultLabel').style.display='none';
+    const res=document.getElementById('batchResults'); res.innerHTML='';
+    const map={};
+    for(let i=0;i<psBatchFiles.length;i++){
+      const f=psBatchFiles[i];
+      setProgress('unlock',Math.round((i/psBatchFiles.length)*100),f.name);
+      try{
+        const {decrypted,meta}=await decryptSafe(f,pass);
+        const uid='b'+i; map[uid]={blob:new Blob([decrypted]),name:meta.name};
+        res.innerHTML+=`<div class="batch-item"><span>✅</span><span class="batch-name">${fileIcon(meta.name)} ${meta.name}</span><button class="batch-dl" onclick="batchDL('${uid}')">⬇️ İndir</button></div>`;
+      }catch{
+        res.innerHTML+=`<div class="batch-item"><span>❌</span><span class="batch-name">${f.name}</span><span style="font-size:.76rem;color:var(--danger)">Yanlış şifre / bozuk</span></div>`;
+      }
+      await new Promise(r=>setTimeout(r,80));
+    }
+    window._bmap=map;
+    setProgress('unlock',100,'','Tamamlandı!');
+    setTimeout(()=>setProgress('unlock',null),2000);
+    return;
+  }
+
+  if(!uploadedPS) return showAlert('unlockAlert','⚠️ .safe dosyası seçilmedi.','error');
+  document.getElementById('batchResultsWrap').style.display='none';
+  setProgress('unlock',40,uploadedPS.name);
+  try{
+    const {decrypted,meta,sigValid}=await decryptSafe(uploadedPS,pass);
+    setProgress('unlock',100,'','Tamamlandı!'); setTimeout(()=>setProgress('unlock',null),1000);
+    decryptedName=meta.name;
+    document.getElementById('resultLabel').style.display='flex';
+    ['imgPreview','pdfPreview','txtPreview'].forEach(id=>document.getElementById(id).classList.remove('show'));
+    document.getElementById('resultBox').classList.remove('show');
+    document.getElementById('resultActions').classList.remove('show');
+
+    if(meta.isText){
+      const box=document.getElementById('resultBox');
+      box.textContent=new TextDecoder().decode(decrypted); box.classList.add('show');
+      decryptedBlob=null;
+    }else{
+      decryptedBlob=new Blob([decrypted]);
+      const ext=(meta.name||'').split('.').pop().toLowerCase();
+      const url=URL.createObjectURL(decryptedBlob);
+      if(['jpg','jpeg','png','gif','webp','svg','bmp'].includes(ext)){
+        document.getElementById('previewImg').src=url;
+        document.getElementById('imgPreview').classList.add('show');
+      }else if(ext==='pdf'){
+        document.getElementById('previewPdf').src=url;
+        document.getElementById('pdfPreview').classList.add('show');
+      }else if(['txt','md','js','py','html','css','json','csv','xml'].includes(ext)){
+        document.getElementById('previewTxt').textContent=new TextDecoder().decode(decrypted).slice(0,5000);
+        document.getElementById('txtPreview').classList.add('show');
+      }
+      document.getElementById('resultActions').classList.add('show');
+    }
+    const sigBadge=document.getElementById('sigBadge');
+    if(sigValid===true){ sigBadge.className='sig-badge valid'; sigBadge.textContent='✅ İmza Geçerli — Dosya değiştirilmemiş'; sigBadge.style.display='inline-flex'; }
+    else if(sigValid===false){ sigBadge.className='sig-badge invalid'; sigBadge.textContent='⚠️ İmza Geçersiz — Dosya değiştirilmiş olabilir!'; sigBadge.style.display='inline-flex'; }
+    else { sigBadge.style.display='none'; }
+    showAlert('unlockAlert','✅ Dosya başarıyla açıldı!','success');
+  }catch(e){
+    setProgress('unlock',null);
+    const msg=e.message==='wrong_pass'?'❌ Yanlış şifre!':e.message==='tampered'?'🚨 Dosya üçüncü kişi tarafından değiştirilmiş!':'❌ Dosya açılamadı. Bozuk veya yanlış şifre.';
+    showAlert('unlockAlert',msg,'error');
+  }
+}
+
+function batchDL(uid){const{blob,name}=window._bmap[uid];const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function downloadOriginal(){if(!decryptedBlob)return;const url=URL.createObjectURL(decryptedBlob);const a=document.createElement('a');a.href=url;a.download=decryptedName;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);}
+
+// ── FORGOT PASSWORD ───────────────────────────────────────
+let _forgotMeta=null, _wrongAttempts=0, _lockedUntil=0, _lockoutInterval=null;
+
+function _fSetState(s){
+  ['NoEmail','Reveal','Success'].forEach(n=>{
+    const el=document.getElementById('fState'+n);
+    if(el) el.style.display=n===s?'flex':'none';
+  });
+}
+async function forgotPassword() {
+  if(!uploadedPS) return showAlert('unlockAlert','⚠️ Önce .safe dosyasını yükleyin.','error');
+  try{
+    const raw=new Uint8Array(await uploadedPS.arrayBuffer());
+    const metaLen=new DataView(raw.buffer).getUint32(0,true);
+    _forgotMeta=JSON.parse(new TextDecoder().decode(raw.slice(4,4+metaLen)));
+    _wrongAttempts=0; _lockedUntil=0;
+    if(_lockoutInterval) clearInterval(_lockoutInterval);
+    document.getElementById('fKeyFile').value='';
+    document.getElementById('fAlertReveal').className='alert';
+    document.getElementById('lockoutWrap').classList.remove('show');
+    document.getElementById('fRevealBtn').disabled=false;
+    _fSetState(_forgotMeta.encPass ? 'Reveal' : 'NoEmail');
+    document.getElementById('forgotModal').classList.add('show');
+  }catch{ showAlert('unlockAlert','❌ Dosya okunamadı.','error'); }
+}
+
+function fAutoHyphen(input) {
+  let v=input.value.replace(/[^A-Z0-9]/g,'').toUpperCase();
+  let out='';
+  for(let i=0;i<v.length&&i<16;i++){if(i>0&&i%4===0)out+='-';out+=v[i];}
+  input.value=out;
+}
+// FIX 3: .key dosyası düz metin olduğu için direkt oku
+function parseKeyFile(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const key=ev.target.result.trim();
+    document.getElementById('fKeyFile').value=key;
+  };
+  reader.readAsText(file);
+}
+
+function isLockedOut(){ return Date.now()<_lockedUntil; }
+function startLockout(){
+  const delays=[30,60,120,300,600];
+  const secs=delays[Math.min(_wrongAttempts-5,delays.length-1)]||30;
+  _lockedUntil=Date.now()+secs*1000;
+  document.getElementById('lockoutWrap').classList.add('show');
+  document.getElementById('fRevealBtn').disabled=true;
+  if(_lockoutInterval) clearInterval(_lockoutInterval);
+  _lockoutInterval=setInterval(()=>{
+    const rem=Math.max(0,Math.ceil((_lockedUntil-Date.now())/1000));
+    document.getElementById('lockoutTimer').textContent=rem+'s';
+    document.getElementById('lockoutBar').style.width=(rem/secs*100)+'%';
+    if(rem<=0){clearInterval(_lockoutInterval);document.getElementById('lockoutWrap').classList.remove('show');document.getElementById('fRevealBtn').disabled=false;}
+  },500);
+}
+
+async function revealPassword() {
+  if(!_forgotMeta||isLockedOut()) return;
+  const fullKey=document.getElementById('fKeyFile').value.trim().toUpperCase();
+  if(!fullKey){const al=document.getElementById('fAlertReveal');al.textContent='⚠️ Kurtarma anahtarını girin.';al.className='alert error show';return;}
+  try{
+    const rkKey=await deriveKey(fullKey,_forgotMeta.recoverySalt);
+    const decPass=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromB64(_forgotMeta.recoveryIv)},rkKey,fromB64(_forgotMeta.encPass));
+    _wrongAttempts=0;
+    document.getElementById('fRevealedPass').textContent=new TextDecoder().decode(decPass);
+    _fSetState('Success');
+  }catch{
+    _wrongAttempts++;
+    const al=document.getElementById('fAlertReveal');
+    if(_wrongAttempts>=5){al.textContent='❌ Yanlış anahtar. Geçici kilit aktif.';al.className='alert error show';startLockout();}
+    else{al.textContent=`❌ Yanlış anahtar. ${5-_wrongAttempts} deneme hakkı kaldı.`;al.className='alert error show';}
+  }
+}
+function fCopyPass(){
+  const p=document.getElementById('fRevealedPass').textContent;
+  navigator.clipboard.writeText(p).then(()=>{
+    const btn=document.getElementById('fCopyBtn');
+    btn.textContent='✅ Kopyalandı!';
+    setTimeout(()=>{btn.textContent='📋 Kopyala';},2000);
+  });
+}
+function closeForgotModal(){
+  document.getElementById('forgotModal').classList.remove('show');
+  if(_lockoutInterval) clearInterval(_lockoutInterval);
+  setTimeout(()=>{ document.getElementById('fRevealedPass').textContent=''; },400);
+}
+
+// ── PASSWORD GENERATOR ────────────────────────────────────
+let genPass='';
+function openGenModal(){document.getElementById('genModal').classList.add('show');generatePassword();}
+function closeGenModal(){document.getElementById('genModal').classList.remove('show');}
+function updateGenLabel(){document.getElementById('lenLabel').textContent=document.getElementById('genLen').value;generatePassword();}
+function generatePassword(){
+  const len=+document.getElementById('genLen').value;
+  let chars='abcdefghijklmnopqrstuvwxyz';
+  if(document.getElementById('genUpper').checked) chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if(document.getElementById('genNum').checked) chars+='0123456789';
+  if(document.getElementById('genSym').checked) chars+='!@#$%^&*()-_=+[]{}|;:,.<>?';
+  const arr=crypto.getRandomValues(new Uint8Array(len));
+  genPass=Array.from(arr).map(b=>chars[b%chars.length]).join('');
+  document.getElementById('genPassDisplay').textContent=genPass;
+}
+function useGenPass(){
+  document.getElementById('lockPass').value=genPass;
+  document.getElementById('lockPass2').value=genPass;
+  checkStrength(genPass); closeGenModal();
+}
+
+// ── MODAL DISMISS ─────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  [['genModal',closeGenModal],['forgotModal',closeForgotModal],['keyExportModal',closeKeyExport]]
+    .forEach(([id,fn])=>{ const el=document.getElementById(id); if(el) el.addEventListener('click',e=>{ if(e.target===el) fn(); }); });
+});
+</script>
+</body>
+</html>
